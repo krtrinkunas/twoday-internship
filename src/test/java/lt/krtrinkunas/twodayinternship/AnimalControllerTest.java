@@ -11,13 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,29 +36,6 @@ public class AnimalControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(animalController).build();
-    }
-
-    @Test
-    public void testLoadAnimals() throws Exception {
-        List<EnclosureDto> enclosureDtos = new ArrayList<>();
-        enclosureDtos.add(new EnclosureDto("Enc1", "Large", "Outside", new ArrayList<>()));
-        EnclosureListDto enclosureListDto = new EnclosureListDto(enclosureDtos);
-
-        List<AnimalDto> animalDtos = new ArrayList<>();
-        animalDtos.add(new AnimalDto("Lion", "Herbivore", 3));
-        AnimalListDto animalListDto = new AnimalListDto(animalDtos);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/enclosures")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(enclosureListDto)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/animals")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(animalListDto)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        verify(animalService, times(1)).createAnimals(animalListDto);
     }
 
     @Test

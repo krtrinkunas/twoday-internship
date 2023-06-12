@@ -28,7 +28,7 @@ public class AnimalController {
 
     @PostMapping("/animal")
     public void loadSingleAnimal(@RequestBody AnimalDto animalDto) {
-        animalService.createSingleAnimal(animalDto);
+        animalService.createAnimal(animalDto);
     }
 
     @GetMapping("/animals/{id}")

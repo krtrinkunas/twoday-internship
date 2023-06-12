@@ -7,6 +7,7 @@ import lt.krtrinkunas.twodayinternship.exception.EntityNotFoundException;
 import lt.krtrinkunas.twodayinternship.model.Animal;
 import lt.krtrinkunas.twodayinternship.repository.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,10 +42,14 @@ public class AnimalService {
             animal.setFood(animalDto.getFood());
             animal.setAmount(animalDto.getAmount());
             animalRepository.save(animal);
-            reassignEnclosures();
         } catch (Exception e) {
             throw new EntityAlreadyExistsException();
         }
+    }
+
+    public void createAnimal(AnimalDto animalDto) {
+        createSingleAnimal(animalDto);
+        reassignEnclosures();
     }
 
     public Animal updateAnimal(Long id, AnimalDto animalDto) {
@@ -65,7 +70,7 @@ public class AnimalService {
                     reassignEnclosures();
                 }
                 return animal;
-            } catch (Exception e) {
+            } catch (DataIntegrityViolationException e) {
                 throw new EntityAlreadyExistsException();
             }
         }

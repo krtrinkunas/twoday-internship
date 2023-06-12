@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class EnclosureService {
@@ -29,20 +27,17 @@ public class EnclosureService {
     @Transactional
     public void createEnclosures(EnclosureListDto enclosures) {
         for (EnclosureDto enclosureDto : enclosures.getEnclosures()) {
-            //Set<EnclosureObject> enclosureObjects = new HashSet<>();
 
             Enclosure enclosure = new Enclosure();
             enclosure.setName(enclosureDto.getName());
             enclosure.setSize(enclosureDto.getSize());
             enclosure.setLocation(enclosureDto.getLocation());
-            //enclosure.setEnclosureObjects(enclosureObjects);
             enclosureRepository.save(enclosure);
             for (String enclosureObjectName : enclosureDto.getObjects()) {
                 EnclosureObject enclosureObject = new EnclosureObject();
                 enclosureObject.setObject(enclosureObjectName);
                 enclosureObject.setEnclosure(enclosure);
                 enclosureObjectRepository.save(enclosureObject);
-                //enclosureObjects.add(enclosureObject);
             }
         }
     }

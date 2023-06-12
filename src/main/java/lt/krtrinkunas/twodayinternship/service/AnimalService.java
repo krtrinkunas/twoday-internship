@@ -26,11 +26,10 @@ public class AnimalService {
     }
 
     @Transactional
-    public void createAnimals(AnimalListDto animals) {
-        for (AnimalDto animalDto : animals.getAnimals()) {
+    public void createAnimals(AnimalListDto animalDtos) {
+        for (AnimalDto animalDto : animalDtos.getAnimals()) {
             createSingleAnimal(animalDto);
         }
-
         reassignEnclosures();
     }
 

@@ -55,7 +55,6 @@ public class AnimalControllerTest {
 
     @Test
     public void testGetAllAnimals() throws Exception {
-        // Prepare
         List<Animal> animalList = Arrays.asList(new Animal(1L, "Lion", "Herbivore", 3, new Enclosure()));
         List<AnimalReturnDto> expectedDtoList = animalList.stream()
                 .map(AnimalReturnDto::new)
@@ -63,18 +62,13 @@ public class AnimalControllerTest {
 
         when(animalService.readAllAnimals()).thenReturn(animalList);
 
-        // Act
         mockMvc.perform(MockMvcRequestBuilders.get("/api/animals"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(asJsonString(expectedDtoList)));
 
-        // Assert
         verify(animalService, times(1)).readAllAnimals();
     }
 
-    // Other test methods for the remaining controller methods (loadSingleAnimal, deleteAnimal, updateAnimal) can be added similarly
-
-    // Utility method to convert objects to JSON string
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
